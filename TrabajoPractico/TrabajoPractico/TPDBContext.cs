@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TrabajoPractico
 {
-    public class TPDBContext : DbContext
+    class TPDBContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,5 +28,11 @@ namespace TrabajoPractico
                 .ToTable("Tareas");
 
         }
+
+        public DbSet<Usuarios> Usuarios { get; set; }
+        public DbSet<Tareas> Tareas { get; set; }
+        public DbSet<Recursos> Recursos { get; set; }
+        public DbSet<Detalles> Detalles { get; set; }
+
     }
 }

@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace TrabajoPractico
 {
+    [Table("Tareas")]
     class Tareas
     {
         [Key]
-        public String titulo { get; set; }
-        public DateTime vencimiento { get; set; }
-        public int estimacion { get; set; }
-        public String responsable { get; set; }
-        public bool String { get; set; }
+        [MaxLength(10)]
+        public String Titulo { get; set; }
+
+        public DateTime Vencimiento { get; set; }
+
+        public int Estimacion { get; set; }
+
+        [MaxLength(30)]
+        public String Responsable { get; set; }
+
+        [Required]
+        public bool Estado { get; set; }
 
         
     }

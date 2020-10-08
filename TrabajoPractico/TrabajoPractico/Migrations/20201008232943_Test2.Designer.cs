@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrabajoPractico;
 
 namespace TrabajoPractico.Migrations
 {
     [DbContext(typeof(TPDBContext))]
-    partial class TPDBContextModelSnapshot : ModelSnapshot
+    [Migration("20201008232943_Test2")]
+    partial class Test2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -18,19 +20,19 @@ namespace TrabajoPractico.Migrations
 
             modelBuilder.Entity("TrabajoPractico.Detalles", b =>
                 {
-                    b.Property<DateTime>("Fecha")
+                    b.Property<DateTime>("fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RecursoNombre")
+                    b.Property<string>("recursoNombre")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Tiempo")
+                    b.Property<string>("tiempo")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Fecha");
+                    b.HasKey("fecha");
 
-                    b.HasIndex("RecursoNombre");
+                    b.HasIndex("recursoNombre");
 
                     b.ToTable("Detalles");
                 });
@@ -94,9 +96,9 @@ namespace TrabajoPractico.Migrations
 
             modelBuilder.Entity("TrabajoPractico.Detalles", b =>
                 {
-                    b.HasOne("TrabajoPractico.Recursos", "Recurso")
+                    b.HasOne("TrabajoPractico.Recursos", "recurso")
                         .WithMany()
-                        .HasForeignKey("RecursoNombre")
+                        .HasForeignKey("recursoNombre")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
