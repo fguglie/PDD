@@ -1,4 +1,4 @@
-# Aplicación Final React Native con DrawerNavigator custom + APIs - React Native
+# Aplicación Final Blazor + Servicio APIs y consumo
 
 **Proyecto Final Federico Guglielmetti para la materia Plataformas de Desarrollo - Escuela Davinci - Diciembre 2020**
 
