@@ -1,4 +1,4 @@
-# Aplicación Final Blazor + Servicio APIs y consumo
+# Aplicación Final Blazor + Servicio APIs y Consumo APIs
 
 **Proyecto Final Federico Guglielmetti para la materia Plataformas de Desarrollo - Escuela Davinci - Diciembre 2020**
 
