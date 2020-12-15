@@ -1,0 +1,85 @@
+﻿@page "/detalles/listado/{idTareaNueva:int}"
+@using BlazorApp1.Data
+@using ClassLibrary1.Data;
+
+@inject DetalleService service
+@inject NavigationManager navigation
+@inject IJSRuntime JsRuntime
+
+<h3>Listado de Detalles</h3>
+<button class="btn" @onclick="()=>Editar(0, idTareaNueva)">Nuevo</button>
+@if (detalles == null)
+{
+    <p><em>Loading...</em></p> 
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Recurso</th>
+            <th>Fecha</th>
+            <th>Tiempo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in detalles)
+        {
+            <tr>
+                <td>@item.Recurso.Nombre</td>
+                <td>@item.Fecha</td>
+                <td>@item.Tiempo</td>
+                <td>
+                    <button class="btn" @onclick="() => Editar(item.Id, item.TareaId)">Editar</button>
+                    <button class="btn" @onclick="() => Borrar(item.Id)">Borrar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public int idTareaNueva { get; set; }
+
+    private List<Detalle> detalles = new List<Detalle>();
+
+    public string IdRecurso { get; set; }
+
+    public Recurso Recurso { get; set; } = new Recurso();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (idTareaNueva > 0)
+        {
+            detalles = await service.GetDetalle(idTareaNueva);
+        }
+        else
+        {
+            detalles = await service.GetAll();
+        }
+
+        detalles = await service.GetAll();
+    }
+
+    protected void Editar(int id, int idTareaNueva)
+    {
+        navigation.NavigateTo("detalles/editar/" + idTareaNueva + "/" + id);
+    }
+
+    async Task Borrar(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar el detalle?");
+        if (confirmed)
+        {
+            await service.Remove(id);
+            detalles = await service.GetAll();
+        }
+    }
+
+}

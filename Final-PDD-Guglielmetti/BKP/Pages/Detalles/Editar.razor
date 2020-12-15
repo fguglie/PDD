@@ -1,0 +1,87 @@
+﻿@page "/detalles/editar/{id:int}"
+@using BlazorApp1.Data
+@using ClassLibrary1.Data;
+@inject DetalleService service
+@inject NavigationManager navigation
+
+<EditForm Model="@Modelo" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Fecha
+        </label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="Modelo.Fecha" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Tiempo
+        </label>
+        <InputText @bind-Value="Modelo.Tiempo" />
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Recurso
+        </label>
+        <InputSelect class="p-1" @bind-Value="RecursoId">
+            <option value="0">Elija un Recurso</option>
+            @foreach (var item in Recursos)
+            {
+<option value="@item.Id">@item.Nombre</option>}
+        </InputSelect>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Tareas
+        </label>
+        <InputSelect class="p-1" @bind-Value="TareaId">
+            <option value="0">Elija un Recurso</option>
+            @foreach (var item in Tareas)
+            {
+<option value="@item.Id">@item.Titulo</option>}
+        </InputSelect>
+    </div>
+    <button type="submit">Guardar</button>
+</EditForm>
+
+
+@code { [Parameter]
+            public int Id { get; set; }
+
+            public Detalle Modelo { get; set; } = new Detalle();
+
+            public string RecursoId { get; set; }
+
+            private List<Recurso> Recursos;
+
+            public string TareaId { get; set; }
+
+            private List<Tarea> Tareas;
+
+
+            protected override async Task OnInitializedAsync()
+            {
+                if (Id > 0)
+                {
+                    Modelo = await service.Get(Id);
+                    RecursoId = Modelo.RecursoId.ToString();
+                    TareaId = Modelo.TareaId.ToString();
+                }
+                else
+                {
+                    Modelo = new Detalle();
+                }
+                Recursos = await service.GetRecursos();
+                Tareas = await service.GetTareas();
+            }
+
+
+            private async void Guardar()
+            {
+                Modelo.RecursoId = int.Parse(RecursoId);
+                Modelo.TareaId = int.Parse(TareaId);
+                await service.Save(Modelo);
+                navigation.NavigateTo("detalles/listado");
+            } }
